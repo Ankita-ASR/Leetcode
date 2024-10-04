@@ -1,0 +1,50 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* vis[100000];  // Array to store cloned nodes (NULL if not cloned yet)
+
+    Node* dfs(Node* src) {
+        if (src == NULL) return NULL;
+
+        // If already cloned, return the clone
+        if (vis[src->val] != NULL) {
+            return vis[src->val]; 
+        }
+        // Create a new node with the same value as the source node foe deep copy
+
+        Node* newNode = new Node(src->val);
+        vis[src->val] = newNode;  // Store the cloned node in the vis array
+
+      
+        for (Node* neighbor : src->neighbors) {
+            newNode->neighbors.push_back(dfs(neighbor));  // Clone the neighbors recursively
+        }
+
+        return newNode;
+    }
+
+    Node* cloneGraph(Node* node) {
+        memset(vis, 0, sizeof(vis)); 
+        return dfs(node); 
+    }
+};

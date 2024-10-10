@@ -1,0 +1,33 @@
+class Solution {
+public:
+    void addNode(TreeNode* root,set<int>&v)
+    {
+        if(root == NULL)return;
+        v.insert(root->val);
+        addNode(root->left,v);
+        addNode(root->right,v);
+    }
+    bool isUnivalTree(TreeNode* root) {
+        set<int> s;
+        addNode(root,s);
+        if(s.size()==1)return true;
+        else return false;
+    }
+};
+/*recursive soloution
+class Solution {
+public:
+bool isUnivalTree(TreeNode* root) {
+    if (root == nullptr) return true;  // Base case: empty tree is unival
+
+    // Check left and right children recursively
+    bool leftUnival = isUnivalTree(root->left);
+    bool rightUnival = isUnivalTree(root->right);
+
+    // Check if the current node has the same value as its left and right child
+    if (root->left != nullptr && root->val != root->left->val) return false;
+    if (root->right != nullptr && root->val != root->right->val) return false;
+
+    return leftUnival && rightUnival;
+}
+};*/
